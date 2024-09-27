@@ -11,7 +11,7 @@ namespace ConsoleApp1
         static void Main(string[] args)
         {
             Random rnd = new Random();
-            int aciertoN=0,acierto=0,pd=0,sd=0,td=0,ele=-1,docena=0, num = rnd.Next(1, 37);
+            int gp,GXN=0,GXC=0, GXD=0, apuesta,aciertoN=0,acierto=0,pd=0,sd=0,td=0,ele=-1,docena=0, num = rnd.Next(1, 37);
             string[] colores = { "ROJO", "NEGRO" };
             string op;
             Random random = new Random();
@@ -20,6 +20,13 @@ namespace ConsoleApp1
             Console.WriteLine("[================================RULETA GANADORA================================]");
             Console.WriteLine(num);
             Console.WriteLine(colorAleatorio);
+            Console.Write("Ingrese la cantidad que desea apostar: ");
+            apuesta=int.Parse(Console.ReadLine());
+            while (apuesta <= 0 && apuesta>0)
+            {
+                Console.Write("Ingrese una cantidad valida que desea apostar: ");
+                apuesta = int.Parse(Console.ReadLine());
+            }
             //Intento 1
             Console.WriteLine("¿Desea elegir un número?(S/N)");
             op=Console.ReadLine().ToUpper();
@@ -41,7 +48,8 @@ namespace ConsoleApp1
                 if (ele == num)
                 {
                     acierto = acierto + 1;
-                }
+                    GXN = apuesta * 36;
+                } 
             }
             else
             {
@@ -68,6 +76,7 @@ namespace ConsoleApp1
                 if (colorele == colorAleatorio)
                 {
                     acierto = acierto + 1;
+                    GXC = apuesta * 2;
                 }
             }
             else
@@ -94,39 +103,36 @@ namespace ConsoleApp1
                 }
                 if (num  >= 0 && num < 13)
                 {
-                    Console.WriteLine("Primera docena");
                     pd = pd + 1;
                 }
                 else if (num > 12 && num < 25)
                 {
-                    Console.WriteLine("Segunda docena");
                     sd = sd + 1;
                 }
                 else if (num > 24 && num < 37)
                 {
-                    Console.WriteLine("Tercera docena");
                     td = td + 1;
                 }
-                switch(docena)
+                switch (docena)
                 {
                     case 1:
                         if (num >= 0 && num < 13)
                         {
-                            Console.WriteLine("Primera docena");
+                           
                             pd = pd + 1;
                         }
                         break;
                     case 2:
                         if (num > 12 && num < 25)
                         {
-                            Console.WriteLine("Segunda docena");
+                            
                             sd = sd + 1;
                         }
                         break;
                     case 3:
                         if (num > 24 && num < 37)
                         {
-                            Console.WriteLine("Tercera docena");
+                            
                             td = td + 1;
                         }
                         break;
@@ -134,24 +140,40 @@ namespace ConsoleApp1
                 if (pd == 2 || sd == 2 || td == 2)
                 {
                     acierto = acierto + 1;
+                    GXD = apuesta * 3;
                 }
             }
-            else
+            Console.WriteLine("[================================RESULTADOS================================]");
+            if (num >= 0 && num < 13)
             {
-                Console.WriteLine("Estas perdiendo plata crack");
+                Console.WriteLine("Salio la primera docena.");
+                pd = pd + 1;
             }
+            if (num > 12 && num < 25)
+            {
+                Console.WriteLine("Salio la segunda docena.");
+                sd = sd + 1;
+            }
+            if (num > 24 && num < 37)
+            {
+                Console.WriteLine("Salio la tercera docena.");
+                td = td + 1;
+            }
+            Console.WriteLine($"Salio el número {num}.");
+            Console.WriteLine($"Salio el color {colorAleatorio}.");
 
-            //docena
-            Console.WriteLine(num);
-            Console.WriteLine(colorAleatorio);
             if (acierto == aciertoN)
             {
-                Console.WriteLine("Ganaste");
+                Console.WriteLine($"Acertaste {acierto} de {aciertoN}.");
+                gp = GXN + GXC + GXD;
+                Console.WriteLine($"Ganaste S/.{gp}");
             }
             else if (acierto < aciertoN)
             {
-                Console.WriteLine("Perdiste");
+                Console.WriteLine($"Acertaste {acierto} de {aciertoN}.");
+                Console.WriteLine($"Perdiste.");
             }
+
         }
     }
 }
